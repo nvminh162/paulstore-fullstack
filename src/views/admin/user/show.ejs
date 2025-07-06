@@ -36,7 +36,7 @@
               <div class="d-flex justify-content-between">
                 <h4>List Users</h4>
                 <div>
-                  <a class="btn btn-warning" href="/create-user"
+                  <a class="btn btn-warning" href="/admin/user/create"
                     >Create a new user</a
                   >
                 </div>
@@ -56,18 +56,18 @@
                     <% users.forEach( function (user) { %>
                     <tr>
                       <td><%= user.id %></td>
-                      <td><%= user.name %></td>
-                      <td><%= user.email %></td>
+                      <td><%= user.fullName %></td>
+                      <td><%= user.username %></td>
                       <td><%= user.address %></td>
                       <td class="d-flex gap-2">
                         <form
-                          action="/handle-view-user/<%= user.id %>"
+                          action="/admin/user/detail/<%= user.id %>"
                           method="get"
                         >
                           <button class="btn btn-warning">View</button>
                         </form>
                         <form
-                          action="/handle-delete-user/<%= user.id %>"
+                          action="/admin/user/delete/<%= user.id %>"
                           method="post"
                         >
                           <button class="btn btn-danger">Delete</button>

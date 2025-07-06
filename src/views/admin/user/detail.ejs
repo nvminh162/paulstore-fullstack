@@ -41,20 +41,23 @@
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
               <li class="breadcrumb-item"><a href="/admin/user">Users</a></li>
-              <li class="breadcrumb-item active">Create</li>
+              <li class="breadcrumb-item active">Detail</li>
             </ol>
             <div class="row">
               <div class="col-6 m-auto">
-                <h1 class="mb-5">Create a user</h1>
+                <h1 class="mb-5">User detail (ID: <%= id %>)</h1>
                 <form
-                  action="/admin/user/create"
+                  action="/admin/user/detail"
                   method="post"
                   enctype="multipart/form-data"
                 >
+                  <!-- input id -->
+                  <input value="<%= user.id %>" class="d-none" name="id" />
                   <!-- name -->
                   <div class="mb-3">
                     <label class="form-label">FullName</label>
                     <input
+                      value="<%= user.fullName %>"
                       name="fullName"
                       type="text"
                       class="form-control"
@@ -66,6 +69,7 @@
                   <div class="mb-3">
                     <label class="form-label">Email</label>
                     <input
+                      value="<%= user.username %>"
                       name="email"
                       type="email"
                       class="form-control"
@@ -80,31 +84,33 @@
                       name="password"
                       type="password"
                       class="form-control"
-                      placeholder="Enter you password"
-                      required
+                      placeholder="Skip to keep current password"
                     />
                   </div>
                   <!-- address -->
                   <div class="mb-3">
                     <label class="form-label">Address</label>
-                    <textarea
-                      name="address"
-                      class="form-control"
-                      rows="2"
-                    ></textarea>
+                    <textarea name="address" class="form-control" rows="2"><%= user.address %></textarea>
                   </div>
                   <div class="row">
                     <!-- phone -->
                     <div class="mb-3 col-6">
                       <label class="form-label">Phone</label>
-                      <input name="phone" type="text" class="form-control" />
+                      <input
+                        value="<%= user.phone %>"
+                        name="phone"
+                        type="text"
+                        class="form-control"
+                      />
                     </div>
                     <!-- option role -->
                     <div class="mb-3 col-6">
                       <label class="form-label">Role</label>
                       <select name="role" class="form-select">
                         <% roles.forEach((role,index) => { %>
-                        <option value="<%-role.id %>"><%- role.name %></option>
+                          <option value="<%-role.id %>" <%= user.roleId === role.id ? 'selected' : '' %>>
+                            <%- role.name %>
+                          </option>
                         <%})%>
                       </select>
                     </div>
@@ -125,17 +131,26 @@
                     </div>
                     <!-- preview -->
                     <div class="mb-3 col-6">
-                      <img
-                        style="max-height: 250px; display: none"
-                        alt="avatar preview"
-                        id="avatarPreview"
-                      />
+                      <% if (user.avatar) { %>
+                        <img
+                          style="max-height: 250px; display: block"
+                          alt="avatar preview"
+                          src="/images/<%= user.avatar %>"
+                          id="avatarPreview"
+                        />
+                      <% } else { %>
+                        <img
+                          style="max-height: 250px; display: none"
+                          alt="avatar preview"
+                          id="avatarPreview"
+                        />
+                      <% } %>
                     </div>
                   </div>
                   <!-- button -->
                   <div class="mb-3">
                     <button type="submit" class="btn btn-warning">
-                      Submit
+                      Update
                     </button>
                   </div>
                 </form>
