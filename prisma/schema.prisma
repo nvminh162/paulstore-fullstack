@@ -54,7 +54,7 @@ model Product {
   detailDesc String @db.VarChar(255)
   shortDesc  String @db.VarChar(255)
   quantity   Int
-  sold       String @db.VarChar(255)
+  sold       Int?
   factory    String @db.VarChar(255)
   target     String @db.VarChar(255)
 

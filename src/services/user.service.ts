@@ -7,11 +7,11 @@ export const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, saltRounds);
 };
 
-const handleGetAllUsers = async () => {
+export const handleGetAllUsers = async () => {
   return prisma.user.findMany();
 };
 
-const handleGetAUserById = async (id: string) => {
+export const handleGetAUserById = async (id: string) => {
   return await prisma.user.findUnique({
     where: {
       id: +id,
@@ -19,7 +19,7 @@ const handleGetAUserById = async (id: string) => {
   });
 };
 
-const handleCreateUser = async (
+export const handleCreateUser = async (
   email: string,
   password: string,
   fullName: string,
@@ -43,7 +43,7 @@ const handleCreateUser = async (
   });
 };
 
-const handleDeleteUser = async (id: string) => {
+export const handleDeleteUser = async (id: string) => {
   return await prisma.user.delete({
     where: {
       id: +id,
@@ -51,7 +51,7 @@ const handleDeleteUser = async (id: string) => {
   });
 };
 
-const handleUpdateUser = async (
+export const handleUpdateUser = async (
   id: string,
   email: string,
   password: string | null,
@@ -90,15 +90,6 @@ const handleUpdateUser = async (
   });
 };
 
-const handleGetAllRole = async () => {
+export const handleGetAllRole = async () => {
   return prisma.role.findMany();
-};
-
-export {
-  handleCreateUser,
-  handleGetAllUsers,
-  handleDeleteUser,
-  handleGetAUserById,
-  handleUpdateUser,
-  handleGetAllRole,
 };

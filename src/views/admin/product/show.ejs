@@ -29,9 +29,56 @@
             <h1 class="mt-4">Manage Products</h1>
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-              <li class="breadcrumb-item active">Product</li>
+              <li class="breadcrumb-item active">Products</li>
             </ol>
-            <div>table</div>
+            <!-- title -->
+            <div class="m-5">
+              <div class="d-flex justify-content-between">
+                <h4>List Product</h4>
+                <div>
+                  <a class="btn btn-warning" href="/admin/product/create"
+                    >Create a new product</a
+                  >
+                </div>
+              </div>
+              <hr />
+              <!-- table -->
+              <div>
+                <table class="table table-hover">
+                  <thead>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Factory</th>
+                    <th>Action</th>
+                  </thead>
+                  <tbody>
+                    <% products.forEach( function (product) { %>
+                    <tr>
+                      <td><%= product.id %></td>
+                      <td><%= product.name %></td>
+                      <td><%= product.price %></td>
+                      <td><%= product.factory %></td>
+                      <td class="d-flex gap-2">
+                        <form
+                          action="/admin/product/detail/<%= product.id %>"
+                          method="get"
+                        >
+                          <button class="btn btn-warning">View</button>
+                        </form>
+                        <form
+                          action="/admin/product/delete/<%= product.id %>"
+                          method="post"
+                        >
+                          <button class="btn btn-danger">Delete</button>
+                        </form>
+                      </td>
+                    </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </main>
         <!-- footer -->
