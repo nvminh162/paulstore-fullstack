@@ -41,9 +41,6 @@
     <!-- Header -->
     <%- include('../layout/header') -%>
 
-    <!-- Hero Start -->
-    <%- include('../layout/hero') -%>
-
     <!-- content -->
     <div class="container-fluid fruite py-5">
       <div class="container py-5">
@@ -73,12 +70,13 @@
               <div class="row g-4">
                 <div class="col-lg-12">
                   <div class="row g-4">
+                    <% products.forEach( function (product) { %>
                     <!-- Item -->
                     <div class="col-md-6 col-lg-4 col-xl-3">
                       <div class="rounded position-relative fruite-item">
                         <div class="fruite-img">
                           <img
-                            src="images/product/product-carousel-1.webp"
+                            src="images/product/<%= product.image %>"
                             class="img-fluid w-100 rounded-top"
                             alt=""
                           />
@@ -86,16 +84,18 @@
                         <div
                           class="p-4 border border-secondary border-top-0 rounded-bottom"
                         >
-                          <h4>Product 1</h4>
-                          <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit sed do eiusmod te incididunt
-                          </p>
+                          <h4>
+                            <a href="/product/<%= product.id %>">
+                              <%= product.name %>
+                            </a>
+                          </h4>
+                          <p><%= product.shortDesc %></p>
                           <div
                             class="d-flex flex-column gap-3 justify-content-between flex-lg-wrap"
                           >
                             <p class="text-dark fs-5 fw-bold mb-0">
-                              $4.99 / kg
+                            <%= new Intl.NumberFormat('vi-VN', { style: 'currency' ,
+                              currency: 'VND' }).format(product.price) %>
                             </p>
                             <a
                               href="#"
@@ -109,7 +109,7 @@
                         </div>
                       </div>
                     </div>
-                    
+                    <% }) %>
                   </div>
                 </div>
               </div>
@@ -120,7 +120,7 @@
     </div>
 
     <!-- Footer -->
-  <%- include('../layout/footer') -%>
+    <%- include('../layout/footer') -%>
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

@@ -23,8 +23,8 @@ export const handleCreateProduct = async (
       detailDesc: detailDesc,
       factory: factory,
       target: target,
-      image: image,
       sold: 0,
+      ...(image && { image: image }),
     },
   });
 };
@@ -37,7 +37,7 @@ export const handleDeleteProduct = async (id: string) => {
   });
 };
 
-export const handleGetAProductById = async (id: string) => {
+export const handleGetAProductById = async (id: number) => {
   return await prisma.product.findUnique({
     where: {
       id: +id,

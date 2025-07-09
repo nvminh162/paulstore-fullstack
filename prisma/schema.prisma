@@ -50,11 +50,11 @@ model Product {
   id         Int    @id @default(autoincrement())
   name       String @db.VarChar(255)
   price      Int
-  image      String @db.VarChar(255)
-  detailDesc String @db.VarChar(255)
+  image      String? @db.VarChar(255)
+  detailDesc String @db.MediumText
   shortDesc  String @db.VarChar(255)
   quantity   Int
-  sold       Int?
+  sold       Int? @default(0)
   factory    String @db.VarChar(255)
   target     String @db.VarChar(255)
 

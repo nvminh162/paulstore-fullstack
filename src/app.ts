@@ -7,6 +7,8 @@ import initDatabase from "config/seed";
 const PORT = process.env.PORT || 8080;
 const app = express();
 
+
+
 //config view engine
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");

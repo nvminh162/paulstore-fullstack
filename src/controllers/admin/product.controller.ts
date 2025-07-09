@@ -6,6 +6,7 @@ import {
   handleGetAProductById,
   handleUpdateProduct,
 } from "services/product.service";
+import { ProductSchema, TProductSchema } from "src/validation/product.schema";
 
 export const getProductPage = async (req: Request, res: Response) => {
   const products = await handleGetAllProducts();
@@ -13,29 +14,51 @@ export const getProductPage = async (req: Request, res: Response) => {
 };
 
 export const getCreateProductPage = async (req: Request, res: Response) => {
-  return res.render("admin/product/create");
+  const errors = [];
+  const oldData = {
+    name: "",
+    price: "",
+    shortDesc: "",
+    quantity: "",
+    detailDesc: "",
+    factory: "",
+    target: "",
+  };
+  return res.render("admin/product/create", { errors, oldData });
 };
 
 export const postCreateProduct = async (req: Request, res: Response) => {
   const { name, price, shortDesc, quantity, detailDesc, factory, target } =
-    req.body;
+    req.body as TProductSchema;
   //from multer lib to get here
   const file = req.file;
   const image = file?.filename ?? null;
   //   console.log("check data: >>> ", req.body);
   //   console.log("check file: >>> ", image);
 
+  const oldData = { name, price, shortDesc, quantity, detailDesc, factory, target };
+
+  const validate = ProductSchema.safeParse(req.body);
+
+  if (!validate.success) {
+    //error
+    const errorZod = validate.error.issues;
+    const errors = errorZod?.map((item) => `${item.message} (${item.path[0]})`);
+    return res.render("admin/product/create", { errors, oldData });
+  }
+
   //   handle create product
   await handleCreateProduct(
     name,
-    parseInt(price),
+    +price,
     shortDesc,
-    parseInt(quantity),
+    +quantity,
     detailDesc,
     factory,
     target,
     image
   );
+
   return res.redirect("/admin/product");
 };
 
@@ -47,7 +70,7 @@ export const postDeleteProduct = async (req: Request, res: Response) => {
 
 export const getDetailProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const product = await handleGetAProductById(id);
+  const product = await handleGetAProductById(+id);
   return res.render("admin/product/detail", { id: id, product: product });
 };
 
