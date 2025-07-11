@@ -7,8 +7,6 @@ import initDatabase from "config/seed";
 const PORT = process.env.PORT || 8080;
 const app = express();
 
-
-
 //config view engine
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -23,7 +21,12 @@ app.use(express.static("public"));
 //config routes
 webRoutes(app);
 
-initDatabase()
+//handle 404
+app.use((req, res) => {
+  res.send("404");
+});
+
+initDatabase();
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
