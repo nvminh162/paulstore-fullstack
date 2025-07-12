@@ -29,9 +29,23 @@ const configPassportLocal = () => {
         return callback(null, false, { message: `Invalid password` });
       }
 
-      return callback(null, user);
+      return callback(null, user); //(1)
     })
   );
+
+  // run continue (1)
+  passport.serializeUser(function (user: any, callback) {
+    process.nextTick(function () {
+      callback(null, { id: user.id, username: user.username });
+    });
+  });
+
+  //F5 alway has user
+  passport.deserializeUser(function (user, callback) {
+    process.nextTick(function () {
+      return callback(null, user);
+    });
+  });
 };
 
 export default configPassportLocal;
