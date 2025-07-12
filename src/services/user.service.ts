@@ -7,6 +7,11 @@ export const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, saltRounds);
 };
 
+//compare password bcrypt
+export const comparePassword = async (plainText: string, hashPassword: string) => {
+  return await bcrypt.compare(plainText, hashPassword);
+}
+
 export const handleGetAllUsers = async () => {
   return prisma.user.findMany();
 };

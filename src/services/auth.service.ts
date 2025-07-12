@@ -1,5 +1,5 @@
 import { prisma } from "config/client";
-import { hashPassword } from "./user.service";
+import { comparePassword, hashPassword } from "./user.service";
 import { ACCOUNT_TYPE } from "config/constants";
 
 export const isEmailExist = async (email: string) => {
@@ -32,7 +32,7 @@ export const registerNewUser = async (
         roleId: userRole.id,
       },
     });
-  }else {
-    throw new Error("User Role không tồn tại!")
+  } else {
+    throw new Error("User Role không tồn tại!");
   }
 };

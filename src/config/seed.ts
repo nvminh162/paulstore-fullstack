@@ -23,7 +23,7 @@ const initDatabase = async () => {
     }
 
     if (countUser === 0) {
-        const defaultPassword = await hashPassword("123456");
+        const defaultPassword = await hashPassword("nvminh162");
         const adminRole = await prisma.role.findFirst({
             where: { name: "ADMIN" }
         })
@@ -31,8 +31,8 @@ const initDatabase = async () => {
             await prisma.user.createMany({
                 data: [
                     {
-                        fullName: "Hỏi Dân IT",
-                        username: "hoidanit@gmail.com",
+                        fullName: "Nguyen Van Minh",
+                        username: "nvminh162@gmail.com",
                         password: defaultPassword,
                         accountType: ACCOUNT_TYPE.SYSTEM,
                         roleId: adminRole.id

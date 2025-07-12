@@ -3,6 +3,8 @@ import express from "express";
 import "dotenv/config";
 import webRoutes from "routes/web";
 import initDatabase from "config/seed";
+import passport from "passport";
+import configPassportLocal from "src/middleware/passport.local";
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -18,6 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 //config static file
 app.use(express.static("public"));
 
+//config passport
+app.use(passport.initialize());
+configPassportLocal();
+
 //config routes
 webRoutes(app);
 
@@ -27,6 +33,7 @@ app.use((req, res) => {
 });
 
 initDatabase();
+
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
