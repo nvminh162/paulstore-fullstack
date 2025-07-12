@@ -29,12 +29,18 @@ app.use(
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000, // ms => 7 days
     },
+    //mật mã có thể tuỳ chỉnh theo ý mình, hãy đặt nó khó lên
     secret: "a santa at nasa",
-    resave: true,
+    // forces session save even if unchanged => nếu session khôg thay đổi thì ko cần lưu vào database
+    resave: false,
+    // save unmodified sessions => nếu chưa đăng nhập chưa có data thì cũng không lưu vào database
     saveUninitialized: true,
     store: new PrismaSessionStore(new PrismaClient(), {
+      //clear expired sessions every day => 1 day
       checkPeriod: 2 * 60 * 1000, //ms
+      // session ID cùng 1 chuỗi số => có thể để khác
       dbRecordIdIsSessionId: true,
+      // custom tạo ra record ID
       dbRecordIdFunction: undefined,
     }),
   })
