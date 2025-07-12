@@ -1,15 +1,22 @@
 import { prisma } from "config/client";
+import { name } from "ejs";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { comparePassword } from "services/user.service";
+import { comparePassword, handleGetAUserById } from "services/user.service";
 
 const configPassportLocal = () => {
   passport.use(
-    new LocalStrategy({ usernameField: "email" }, async function verify(
+    new LocalStrategy({ passReqToCallback: true }, async function verify(
+      req,
       username,
       password,
       callback
     ) {
+      const { session } = req as any;
+      if (session?.messages?.length) {
+        session.messages = [];
+      }
+
       //check user exist in database
       const user = await prisma.user.findUnique({
         where: { username: username },
@@ -18,7 +25,7 @@ const configPassportLocal = () => {
       if (!user) {
         // throw new Error(`Username ${username} not found`);
         return callback(null, false, {
-          message: `Username ${username} not found`,
+          message: `Username invalid`,
         });
       }
 
@@ -35,16 +42,16 @@ const configPassportLocal = () => {
 
   // run continue (1)
   passport.serializeUser(function (user: any, callback) {
-    process.nextTick(function () {
-      callback(null, { id: user.id, username: user.username });
-    });
+    callback(null, { id: user.id, username: user.username });
   });
 
   //F5 alway has user
-  passport.deserializeUser(function (user, callback) {
-    process.nextTick(function () {
-      return callback(null, user);
-    });
+  passport.deserializeUser(async function (user: any, callback) {
+    const { id, username } = user;
+    //query to database
+    const userInDB = await handleGetAUserById(id);
+
+    return callback(null, {...userInDB});
   });
 };
 

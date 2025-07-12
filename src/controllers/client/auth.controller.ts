@@ -42,5 +42,8 @@ export const postRegister = async (req: Request, res: Response) => {
 };
 
 export const getLoginPage = (req: Request, res: Response) => {
-  res.render("client/auth/login");
+  const { session } = req as any;
+  const messages = session?.messages ?? [];
+
+  res.render("client/auth/login", { messages });
 };

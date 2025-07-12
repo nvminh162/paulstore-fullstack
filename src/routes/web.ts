@@ -78,6 +78,7 @@ const webRoutes = (app: Express) => {
     passport.authenticate("local", {
       successReturnToOrRedirect: "/",
       failureRedirect: "/login",
+      failureMessage: true,
     })
   );
   router.get("/product/:id", getDetailPage);
