@@ -5,11 +5,15 @@
       <div class="top-info ps-2">
         <small class="me-3"
           ><i class="fas fa-map-marker-alt me-2 text-secondary"></i>
-          <a href="#" class="text-white">137/2 Trần Bá Giao, An Nhơn, TP HCM</a></small
+          <a href="#" class="text-white">
+            <%= user?.address ?? "Unknown Address" %>
+          </a></small
         >
         <small class="me-3"
           ><i class="fas fa-envelope me-2 text-secondary"></i
-          ><a href="#" class="text-white">nvminh162@gmail.com</a></small
+          ><a href="#" class="text-white">
+            <%= user?.username ?? "Unknown Email" %>
+          </a></small
         >
       </div>
       <div class="top-link pe-2">
@@ -41,7 +45,7 @@
       <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
         <div class="navbar-nav mx-auto">
           <a href="/" class="nav-item nav-link active">Trang chủ</a>
-          <a href="/product/1" class="nav-item nav-link">Sản phẩm</a>
+          <a href="/products" class="nav-item nav-link">Sản phẩm</a>
         </div>
         <div class="d-flex m-3 me-0">
           <button
@@ -59,9 +63,57 @@
               >3</span
             >
           </a>
-          <a href="#" class="my-auto">
+          <% if(user){ %>
+          <!-- Dropdown -->
+          <div class="dropdown my-auto">
+            <a
+              href="#"
+              class="dropdown"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-user fa-2x"></i>
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-end p-4"
+              aria-labelledby="dropdownMenuLink"
+            >
+              <li
+                class="d-flex align-items-center flex-column"
+                style="min-width: 300px"
+              >
+                <img style=" width: 150px; height: 150px; border-radius: 50%;
+                overflow: hidden; object-fit: cover; object-position: center;
+                display: block; margin: 0 auto; " src="/images/user/<%= (user &&
+                user.avatar) ? user.avatar : "default.jpg" %>" />
+                <div class="text-center my-3"><%= user?.fullName %></div>
+              </li>
+              <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
+              <li>
+                <a class="dropdown-item" href="/order-history"
+                  >Lịch sử mua hàng</a
+                >
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <form method="post" action="/logout">
+                  <button class="dropdown-item">Đăng xuất</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+          <% } else{ %>
+          <!-- Not login -->
+          <a href="/login" class="my-auto">
             <i class="fas fa-user fa-2x"></i>
           </a>
+          <% } %>
         </div>
       </div>
     </nav>

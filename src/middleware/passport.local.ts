@@ -2,6 +2,7 @@ import { prisma } from "config/client";
 import { name } from "ejs";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import { getUserWithRoleById } from "services/auth.service";
 import { comparePassword, handleGetAUserById } from "services/user.service";
 
 const configPassportLocal = () => {
@@ -36,7 +37,7 @@ const configPassportLocal = () => {
         return callback(null, false, { message: `Invalid password` });
       }
 
-      return callback(null, user); //(1)
+      return callback(null, user as any); //(1)
     })
   );
 
@@ -49,7 +50,7 @@ const configPassportLocal = () => {
   passport.deserializeUser(async function (user: any, callback) {
     const { id, username } = user;
     //query to database
-    const userInDB = await handleGetAUserById(id);
+    const userInDB = await getUserWithRoleById(id);
 
     return callback(null, {...userInDB});
   });

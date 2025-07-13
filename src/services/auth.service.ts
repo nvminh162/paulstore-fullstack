@@ -36,3 +36,15 @@ export const registerNewUser = async (
     throw new Error("User Role không tồn tại!");
   }
 };
+
+export const getUserWithRoleById = async (id: string) => {
+  return await prisma.user.findUnique({
+    where: { id: +id },
+    include: {
+      role: true,
+    },
+    omit: {
+      password: true
+    }
+  });
+};
