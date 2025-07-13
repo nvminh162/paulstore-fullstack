@@ -94,17 +94,31 @@
                             class="d-flex flex-column gap-3 justify-content-between flex-lg-wrap"
                           >
                             <p class="text-dark fs-5 fw-bold mb-0">
-                            <%= new Intl.NumberFormat('vi-VN', { style: 'currency' ,
-                              currency: 'VND' }).format(product.price) %>
+                              <%= new Intl.NumberFormat('vi-VN', { style:
+                              'currency' , currency: 'VND'
+                              }).format(product.price) %>
                             </p>
-                            <a
+                            <!-- <a
                               href="#"
                               class="btn border border-secondary rounded-pill px-3 text-primary"
                               ><i
                                 class="fa fa-shopping-bag me-2 text-primary"
                               ></i>
                               Add to cart</a
+                            > -->
+                            <form
+                              method="post"
+                              action="/add-product-to-cart/<%= product.id %>"
                             >
+                              <button
+                                class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i
+                                  class="fa fa-shopping-bag me-2 text-primary"
+                                ></i>
+                                Add to cart
+                              </button>
+                            </form>
                           </div>
                         </div>
                       </div>

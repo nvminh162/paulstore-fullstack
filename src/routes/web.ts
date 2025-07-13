@@ -20,7 +20,7 @@ import {
 } from "controllers/admin/product.controller";
 import fileUploadMiddleware from "src/middleware/multer";
 import { getHomePage } from "controllers/client/user.controller";
-import { getDetailPage } from "controllers/client/product.controller";
+import { getDetailPage, postProductToCart } from "controllers/client/product.controller";
 import {
   getLoginPage,
   getRegisterPage,
@@ -87,6 +87,8 @@ const webRoutes = (app: Express) => {
     })
   );
   router.get("/product/:id", getDetailPage);
+
+  router.post("/add-product-to-cart/:id", postProductToCart)
 
   app.use("/", isAdmin, router);
 };

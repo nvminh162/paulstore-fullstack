@@ -60,8 +60,9 @@
             <span
               class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
               style="top: -5px; left: 15px; height: 20px; min-width: 20px"
-              >3</span
             >
+              <%= user?.sumCart ?? 0 %>
+            </span>
           </a>
           <% if(user){ %>
           <!-- Dropdown -->

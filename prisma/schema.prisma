@@ -27,11 +27,13 @@ model User {
   fullName    String? @db.VarChar(255)
   address     String? @db.VarChar(255)
   phone       String? @db.VarChar(255)
-  accountType String? @db.VarChar(255)
+  accountType String  @db.VarChar(255)
   avatar      String? @db.VarChar(255)
 
   role   Role @relation(fields: [roleId], references: [id])
   roleId Int
+
+  Cart Cart?
 
   @@map("users")
 }
@@ -57,14 +59,41 @@ model Product {
   id         Int     @id @default(autoincrement())
   name       String  @db.VarChar(255)
   price      Int
-  image      String? @db.VarChar(255)
   detailDesc String  @db.MediumText
   shortDesc  String  @db.VarChar(255)
   quantity   Int
-  sold       Int?    @default(0)
+  sold       Int     @default(0)
   factory    String  @db.VarChar(255)
   target     String  @db.VarChar(255)
+  image      String? @db.VarChar(255)
+
+  CartDetails CartDetail[]
 
   @@map("products")
 }
 
+model Cart {
+  id  Int @id @default(autoincrement())
+  sum Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  cartDetails CartDetail[]
+
+  @@map("carts")
+}
+
+model CartDetail {
+  id       Int @id @default(autoincrement())
+  price    Int
+  quantity Int
+
+  cart   Cart @relation(fields: [cartId], references: [id])
+  cartId Int
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  @@map("cart_detail")
+}
