@@ -20,7 +20,14 @@ import {
 } from "controllers/admin/product.controller";
 import fileUploadMiddleware from "src/middleware/multer";
 import { getHomePage } from "controllers/client/user.controller";
-import { getDetailPage, postProductToCart } from "controllers/client/product.controller";
+import {
+  getCartPage,
+  getCheckoutPage,
+  getDetailPage,
+  postDeleteProductInCart,
+  postHandleCartToCheckout,
+  postProductToCart,
+} from "controllers/client/product.controller";
 import {
   getLoginPage,
   getRegisterPage,
@@ -51,7 +58,7 @@ const webRoutes = (app: Express) => {
     fileUploadMiddleware("avatar", "images/user"),
     postUpdateUser
   );
-  
+
   //Product
   router.get("/admin/product", getProductPage);
   router.get("/admin/product/create", getCreateProductPage);
@@ -67,13 +74,13 @@ const webRoutes = (app: Express) => {
     fileUploadMiddleware("image", "images/product"),
     postUpdateProduct
   );
-  
+
   //Order
   router.get("/admin/order", getOrderPage);
-  
+
   //CLIENT -----------------------------------------------
   router.get("/", getHomePage);
-  router.get("/success-redirect", getSuccessRedirectPage)
+  router.get("/success-redirect", getSuccessRedirectPage);
   router.get("/register", getRegisterPage);
   router.post("/register", postRegister);
   router.post("/logout", postLogout);
@@ -88,7 +95,11 @@ const webRoutes = (app: Express) => {
   );
   router.get("/product/:id", getDetailPage);
 
-  router.post("/add-product-to-cart/:id", postProductToCart)
+  router.post("/add-product-to-cart/:id", postProductToCart);
+  router.get("/cart", getCartPage);
+  router.post("/delete-product-in-cart/:id", postDeleteProductInCart);
+  router.get("/checkout", getCheckoutPage)
+  router.post("/handle-cart-to-checkout", postHandleCartToCheckout)
 
   app.use("/", isAdmin, router);
 };
