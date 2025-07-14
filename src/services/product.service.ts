@@ -79,3 +79,83 @@ export const handleUpdateProduct = async (
     data: updateData,
   });
 };
+
+export const handlePlaceOrder = async (
+  userId: number,
+  receiverName: string,
+  receiverAddress: string,
+  receiverPhone: string,
+  totalPrice: number
+) => {
+  try {
+    await prisma.$transaction(async (tx) => {
+      const cart = await tx.cart.findUnique({
+        where: {
+          userId,
+        },
+        include: {
+          cartDetails: true,
+        },
+      });
+
+      if (cart) {
+        //create
+        const dataOrderDetail =
+          cart?.cartDetails?.map((item) => ({
+            price: item.price,
+            quantity: item.quantity,
+            productId: item.productId,
+          })) ?? [];
+        await tx.order.create({
+          data: {
+            receiverName,
+            receiverAddress,
+            receiverPhone,
+            paymentMethod: "COD",
+            paymentStatus: "PAYMENT_UNPAID",
+            status: "PENDING",
+            totalPrice: totalPrice,
+            userId,
+            orderDetails: {
+              create: dataOrderDetail,
+            },
+          },
+        });
+
+        //remove cartDetail vs cart
+        await tx.cartDetail.deleteMany({
+          where: { cartId: cart.id },
+        });
+        await tx.cart.delete({ where: { id: cart.id } });
+      }
+
+      //check product
+      for (let i = 0; i < cart.cartDetails.length; i++) {
+        const productId = cart.cartDetails[i].productId;
+        const product = await tx.product.findUnique({
+          where: { id: productId },
+        });
+        if (!product || product.quantity < cart.cartDetails[i].quantity) {
+          throw new Error(
+            `Sản phẩm ${product?.name} không tồn tại hoặc không đủ số lượng`
+          );
+        }
+
+        await tx.product.update({
+          where: { id: productId },
+          data: {
+            quantity: {
+              decrement: cart.cartDetails[i].quantity,
+            },
+            sold: {
+              increment: cart.cartDetails[i].quantity,
+            },
+          },
+        });
+      }
+    });
+    return "";
+  } catch (error) {
+    return error.message;
+  }
+};

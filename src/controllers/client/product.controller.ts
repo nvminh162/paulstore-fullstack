@@ -5,7 +5,11 @@ import {
   getProductInCart,
   updateCartDetailBeforeCheckout,
 } from "services/cart.service";
-import { handleGetAProductById } from "services/product.service";
+import { getOrderHistory } from "services/order.service";
+import {
+  handleGetAProductById,
+  handlePlaceOrder,
+} from "services/product.service";
 
 export const getDetailPage = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -75,4 +79,40 @@ export const postHandleCartToCheckout = async (req: Request, res: Response) => {
   await updateCartDetailBeforeCheckout(currentCartDetail);
 
   return res.redirect("/checkout");
+};
+
+export const postPlaceOrder = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) return res.redirect("/login");
+
+  const { receiverName, receiverAddress, receiverPhone, totalPrice } = req.body;
+
+  const message = await handlePlaceOrder(
+    user.id,
+    receiverName,
+    receiverAddress,
+    receiverPhone,
+    +totalPrice
+  );
+  console.warn("***************************************>>>>>>>>>>>>>>>>>>>>>> ", message);
+  if (message) return res.redirect("/checkout");
+
+  return res.redirect("/thanks");
+};
+
+export const getThanksPage = (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) return res.redirect("/login");
+  return res.render("client/product/thanks");
+};
+
+export const getOrderHistoryPage = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) return res.redirect("/login");
+
+  const orders = await getOrderHistory(user.id);
+
+  return res.render("client/product/order.history.ejs", {
+    orders,
+  });
 };

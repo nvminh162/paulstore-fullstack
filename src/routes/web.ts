@@ -9,7 +9,7 @@ import {
   postUpdateUser,
 } from "controllers/admin/user.controller";
 import { getDashBoardPage } from "controllers/admin/dashboard.controller";
-import { getOrderPage } from "controllers/admin/order.controller";
+import { getOrderDetailPage, getOrderPage } from "controllers/admin/order.controller";
 import {
   getCreateProductPage,
   getDetailProduct,
@@ -24,8 +24,11 @@ import {
   getCartPage,
   getCheckoutPage,
   getDetailPage,
+  getOrderHistoryPage,
+  getThanksPage,
   postDeleteProductInCart,
   postHandleCartToCheckout,
+  postPlaceOrder,
   postProductToCart,
 } from "controllers/client/product.controller";
 import {
@@ -77,6 +80,7 @@ const webRoutes = (app: Express) => {
 
   //Order
   router.get("/admin/order", getOrderPage);
+  router.get("/admin/order/:id", getOrderDetailPage);
 
   //CLIENT -----------------------------------------------
   router.get("/", getHomePage);
@@ -100,6 +104,9 @@ const webRoutes = (app: Express) => {
   router.post("/delete-product-in-cart/:id", postDeleteProductInCart);
   router.get("/checkout", getCheckoutPage)
   router.post("/handle-cart-to-checkout", postHandleCartToCheckout)
+  router.post("/place-order", postPlaceOrder)
+  router.get("/thanks", getThanksPage)
+  router.get("/order-history", getOrderHistoryPage)
 
   app.use("/", isAdmin, router);
 };

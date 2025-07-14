@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Thanh toán - @hoidanit</title>
+    <title>Thanh toán</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
     <meta content="" name="description" />
@@ -138,68 +138,82 @@
         </div>
 
         <%if (user?.sumCart> 0) { %>
-        <div class="mt-5 row g-4 justify-content-start">
-          <div class="col-12 col-md-6">
-            <div class="p-4">
-              <h5>Thông Tin Người Nhận</h5>
-              <div class="row">
-                <div class="col-12 form-group mb-3">
-                  <label>Tên người nhận</label>
-                  <input class="form-control" name="receiverName" required />
-                </div>
-                <div class="col-12 form-group mb-3">
-                  <label>Địa chỉ người nhận</label>
-                  <input class="form-control" name="receiverAddress" required />
-                </div>
-                <div class="col-12 form-group mb-3">
-                  <label>Số điện thoại</label>
-                  <input class="form-control" name="receiverPhone" required />
-                </div>
-                <div class="mt-4">
-                  <i class="fas fa-arrow-left"></i>
-                  <a href="/cart">Quay lại giỏ hàng</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="bg-light rounded">
+        <form method="post" action="/place-order">
+          <input
+            value="<%= totalPrice %>"
+            name="totalPrice"
+            style="display: none"
+          />
+          <div class="mt-5 row g-4 justify-content-start">
+            <div class="col-12 col-md-6">
               <div class="p-4">
-                <h1 class="display-6 mb-4">
-                  Thông Tin <span class="fw-normal">Thanh Toán</span>
-                </h1>
-
-                <div class="d-flex justify-content-between">
-                  <h5 class="mb-0 me-4">Phí vận chuyển</h5>
-                  <div class="">
-                    <p class="mb-0">0 đ</p>
+                <h5>Thông Tin Người Nhận</h5>
+                <div class="row">
+                  <div class="col-12 form-group mb-3">
+                    <label>Tên người nhận</label>
+                    <input class="form-control" name="receiverName" required />
                   </div>
-                </div>
-                <div class="mt-3 d-flex justify-content-between">
-                  <h5 class="mb-0 me-4">Hình thức</h5>
-                  <div class="">
-                    <p class="mb-0">Thanh toán khi nhận hàng (COD)</p>
+                  <div class="col-12 form-group mb-3">
+                    <label>Địa chỉ người nhận</label>
+                    <input
+                      class="form-control"
+                      name="receiverAddress"
+                      required
+                    />
+                  </div>
+                  <div class="col-12 form-group mb-3">
+                    <label>Số điện thoại</label>
+                    <input class="form-control" name="receiverPhone" required />
+                  </div>
+                  <div class="mt-4">
+                    <i class="fas fa-arrow-left"></i>
+                    <a href="/cart">Quay lại giỏ hàng</a>
                   </div>
                 </div>
               </div>
-              <div
-                class="py-4 mb-4 border-top border-bottom d-flex justify-content-between"
-              >
-                <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
-                <p class="mb-0 pe-4" data-cart-total-price="<%= totalPrice %>">
-                  <%= new Intl.NumberFormat('vi-VN', { style: 'currency' ,
-                  currency: 'VND' }).format(totalPrice) %>
-                </p>
-              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="bg-light rounded">
+                <div class="p-4">
+                  <h1 class="display-6 mb-4">
+                    Thông Tin <span class="fw-normal">Thanh Toán</span>
+                  </h1>
 
-              <button
-                class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
-              >
-                Xác nhận thanh toán
-              </button>
+                  <div class="d-flex justify-content-between">
+                    <h5 class="mb-0 me-4">Phí vận chuyển</h5>
+                    <div class="">
+                      <p class="mb-0">0 đ</p>
+                    </div>
+                  </div>
+                  <div class="mt-3 d-flex justify-content-between">
+                    <h5 class="mb-0 me-4">Hình thức</h5>
+                    <div class="">
+                      <p class="mb-0">Thanh toán khi nhận hàng (COD)</p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="py-4 mb-4 border-top border-bottom d-flex justify-content-between"
+                >
+                  <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
+                  <p
+                    class="mb-0 pe-4"
+                    data-cart-total-price="<%= totalPrice %>"
+                  >
+                    <%= new Intl.NumberFormat('vi-VN', { style: 'currency' ,
+                    currency: 'VND' }).format(totalPrice) %>
+                  </p>
+                </div>
+
+                <button
+                  class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
+                >
+                  Xác nhận thanh toán
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </form>
         <% } %>
       </div>
     </div>
