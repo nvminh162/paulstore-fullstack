@@ -26,7 +26,7 @@ export const registerNewUser = async (
     await prisma.user.create({
       data: {
         username: email,
-        password: password,
+        password: newPassword,
         fullName: fullName,
         accountType: ACCOUNT_TYPE.SYSTEM,
         roleId: userRole.id,
@@ -35,6 +35,34 @@ export const registerNewUser = async (
   } else {
     throw new Error("User Role không tồn tại!");
   }
+};
+
+export const updateUserById = async (
+  id: number,
+  fullName: string,
+  address: string,
+  phone: string
+) => {
+  return await prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      fullName,
+      address,
+      phone,
+    },
+  });
+};
+
+export const deleteUserById = async (
+  id: number
+) => {
+  return await prisma.user.delete({
+    where: {
+      id,
+    }
+  });
 };
 
 export const getUserWithRoleById = async (id: string) => {
