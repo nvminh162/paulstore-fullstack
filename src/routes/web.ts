@@ -19,7 +19,7 @@ import {
   postUpdateProduct,
 } from "controllers/admin/product.controller";
 import fileUploadMiddleware from "src/middleware/multer";
-import { getHomePage } from "controllers/client/user.controller";
+import { getHomePage, getProductsWithFilterPage } from "controllers/client/user.controller";
 import {
   getCartPage,
   getCheckoutPage,
@@ -84,6 +84,7 @@ const webRoutes = (app: Express) => {
 
   //CLIENT -----------------------------------------------
   router.get("/", getHomePage);
+  router.get("/products", getProductsWithFilterPage);
   router.get("/success-redirect", getSuccessRedirectPage);
   router.get("/register", getRegisterPage);
   router.post("/register", postRegister);
