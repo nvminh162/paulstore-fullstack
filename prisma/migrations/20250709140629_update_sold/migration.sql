@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE `products` MODIFY `image` VARCHAR(255) NULL,
-    MODIFY `sold` INTEGER NULL DEFAULT 0;
