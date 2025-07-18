@@ -65,11 +65,9 @@ Configure your environment variables in `.env`:
 PORT=8080
 NODE_ENV=development
 
-# Database Configuration
-DATABASE_URL="mysql://username:password@localhost:3306/paulstore"
+DATABASE_URL="mysql://root:root@localhost:3306/paulstore"
 ```
-
-**Note**: Replace `username`, `password`, and `paulstore` with your MySQL credentials and desired database name.
+**Note**: The configuration above uses default MySQL credentials (`root:root`). If you have different MySQL credentials, replace `root:root` with your actual `username:password`. Make sure your MySQL server is running on port `3306` and you have created the `paulstore` database.
 
 ### 4. Database Setup
 
